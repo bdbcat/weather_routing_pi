@@ -190,11 +190,11 @@ void ConfigurationDialog::SetConfigurations(std::list<RouteMapConfiguration> con
     bool ult = m_WeatherRouting.m_SettingsDialog.m_cbUseLocalTime->GetValue();
 #define STARTTIME (ult ? it->StartTime.FromUTC() : it->StartTime)
 
-    //SET_CONTROL_VALUE(STARTTIME.GetDateOnly(), m_dpStartDate, SetValue, wxDateTime, wxDateTime());
-    //SET_CONTROL_VALUE(STARTTIME, m_tpTime, SetValue, wxDateTime, wxDateTime());
+    SET_CONTROL_VALUE(STARTTIME.GetDateOnly(), m_dpStartDate, SetValue, wxDateTime, wxDateTime());
+    SET_CONTROL_VALUE(STARTTIME, m_tpTime, SetValue, wxDateTime, wxDateTime());
     
-    //m_bCurrentTime->Enable(m_tpTime->IsEnabled() && m_dpStartDate->IsEnabled());
-    //m_bGribTime->Enable(m_tpTime->IsEnabled() && m_dpStartDate->IsEnabled());
+    m_bCurrentTime->Enable(m_tpTime->IsEnabled() && m_dpStartDate->IsEnabled());
+    m_bGribTime->Enable(m_tpTime->IsEnabled() && m_dpStartDate->IsEnabled());
 
     SET_SPIN_VALUE(TimeStepHours, (int)((*it).DeltaTime / 3600));
     SET_SPIN_VALUE(TimeStepMinutes, ((int)(*it).DeltaTime / 60) % 60);
@@ -321,10 +321,10 @@ void ConfigurationDialog::SetStartDateTime(wxDateTime datetime)
         if(m_WeatherRouting.m_SettingsDialog.m_cbUseLocalTime->GetValue())
             datetime = datetime.FromUTC();
 
-        //m_dpStartDate->SetValue(datetime);
-        //m_tpTime->SetValue(datetime);
-        //m_edited_controls.push_back(m_tpTime);
-        //m_edited_controls.push_back(m_dpStartDate);
+        m_dpStartDate->SetValue(datetime);
+        m_tpTime->SetValue(datetime);
+        m_edited_controls.push_back(m_tpTime);
+        m_edited_controls.push_back(m_dpStartDate);
     } else {
         wxMessageDialog mdlg(this, _("Invalid Date Time."),
                              wxString(_("Weather Routing"), wxOK | wxICON_WARNING));
@@ -370,7 +370,7 @@ void ConfigurationDialog::Update()
         GET_CHOICE(Start);
         GET_CHOICE(End);
 
-#if 0    
+//#if 0    
         if(NO_EDITED_CONTROLS || std::find(m_edited_controls.begin(), m_edited_controls.end(), (wxObject*)m_dpStartDate) != m_edited_controls.end()) {
             if(!m_dpStartDate->GetDateCtrlValue().IsValid())
                 continue;
@@ -392,8 +392,8 @@ void ConfigurationDialog::Update()
             configuration.StartTime = date;
             m_dpStartDate->SetForegroundColour(wxColour(0, 0, 0));
         }
-#endif
-#if 0        
+//#endif
+//#if 0        
         if(NO_EDITED_CONTROLS || std::find(m_edited_controls.begin(), m_edited_controls.end(), (wxObject*)m_tpTime) != m_edited_controls.end()) {
             // must use correct data on UTC conversion to preserve Daylight Savings Time changes across dates
             wxDateTime time = configuration.StartTime;
@@ -410,7 +410,7 @@ void ConfigurationDialog::Update()
             configuration.StartTime = time;
             m_tpTime->SetForegroundColour(wxColour(0, 0, 0));
         }
-#endif
+//#endif
         if(!m_tBoat->GetValue().empty()) {
             configuration.boatFileName = m_tBoat->GetValue();
             m_tBoat->SetForegroundColour(wxColour(0, 0, 0));
