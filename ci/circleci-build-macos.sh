@@ -79,6 +79,7 @@ export MACOSX_DEPLOYMENT_TARGET=$MACOSX_DEPLOYMENT_TARGET
 #fi
 
 git submodule update --init opencpn-libs
+git submodule update --remote --merge opencpn-libs
 
 rm -rf build && mkdir build && cd build
 cmake \
