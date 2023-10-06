@@ -279,6 +279,8 @@ endif(NOT OCPN_FLATPAK_CONFIG)
 
 add_definitions(-DTIXML_USE_STL)
 
+target_link_libraries(${PACKAGE_NAME} ocpn::glu_static)
+
 ##
 ## ----- If using JSON validation section below is needed ---------------##
 ##
