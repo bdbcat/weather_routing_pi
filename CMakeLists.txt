@@ -279,8 +279,7 @@ endif(NOT OCPN_FLATPAK_CONFIG)
 
 add_definitions(-DTIXML_USE_STL)
 
-add_subdirectory(opencpn-libs/glu)
-target_link_libraries(${PACKAGE_NAME} ocpn::glu_static)
+include_directories(${PROJECT_SOURCE_DIR}/opencpn-libs/glu/include)
 
 ##
 ## ----- If using JSON validation section below is needed ---------------##
